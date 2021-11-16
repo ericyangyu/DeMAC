@@ -22,7 +22,7 @@ To install, first install the following dependencies:
 * [RabbitMQ](https://rabbitmq.com/download.html)
 * [Anaconda](https://docs.anaconda.com/anaconda/install/) (Optional)
 
-Docker will help us install RabbitMQ, which is how we manage our message queue system in MSARL. Anaconda is an optional dependency to set up a virtual environment with the instructions below.
+Docker will help us install RabbitMQ, which is how we manage our message queue system in DeMAC. Anaconda is an optional dependency to set up a virtual environment with the instructions below.
   
 Assuming you have the 3 dependencies above, setting up your virtual environment is simple. Simply run the following:
 
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-For the given repo, we will use the sample env `MeteorEnv` as an example of how to use MSARL.
+For the given repo, we will use the sample env `MeteorEnv` as an example of how to use DeMAC.
 
 To train:
 ```
