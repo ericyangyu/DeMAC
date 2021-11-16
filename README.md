@@ -65,7 +65,6 @@ Agents are able to move left and right, but are not able to move on top of each 
 This task involves a group of agents that must navigate an NxN grid and reach some goal without colliding into each other or into obstacles. The collective goal of the agents is to reach the goal as quickly as possible; there is a big bonus for an agent that reaches the goal, and big penalty for colliding agents. 
 
 Agents are able to move up, down, left, and right, but will collide if they move on top of a spot that is occupied by another agent or obstacle.
-=======
 
 
 [comment]: <> (## Todo List)
@@ -88,7 +87,7 @@ Agents are able to move up, down, left, and right, but will collide if they move
 
 [comment]: <> (* Check for thread safety)
 
-[comment]: <> (* Make README more comprehensive (e.g. adding GIFs, giving more detailed instructions for how to write shared environment and main function, etc.)
+[comment]: <> (* Make README more comprehensive e.g. adding GIFs, giving more detailed instructions for how to write shared environment and main function, etc.)
 
 [comment]: <> (* add issues to github repo)
 
