@@ -1,0 +1,11 @@
+# Number of agents
+num_agents: 2
+
+# Interval in which meteor fall
+meteor_interval: 2
+
+# Specify n for nxn grid
+grid_size: 5
+
+# Maximum number of timesteps per episode
+max_timesteps: 30
