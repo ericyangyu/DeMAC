@@ -32,7 +32,7 @@ env_path, env = env_map[args.env]
 configs = yaml.load(open(env_path + '/config/config.yaml', 'r'), Loader=yaml.SafeLoader)
 env = env()
 
-# Start up the DeMAC coordinator
+# Start up the DeMAC coordinator, linking the shared environment to the coordinator
 coordinator = Coordinator(env, exp_path=args.exp_path, test=args.model_name is not None)
 
 # Initialize agents and their wrapper environments
@@ -40,8 +40,10 @@ envs, agents = [], []
 for i in range(configs['num_agents']):
     envs.append(AgentEnvWrapper(str(i), coordinator))
     if args.model_name:
+        # Load an existing agent model
         agents.append(A2C.load(f'./{args.exp_path}/{str(i)}/models/{args.model_name}', envs[i], device='cpu'))
     else:
+        # Initialize a new agent model
         agents.append(A2C(MlpPolicy, envs[i], verbose=1, device='cpu'))
 
 # Start up the coordinator server to start listening for agent requests
@@ -49,14 +51,14 @@ coordinator.start()
 
 if args.model_name:
     # Evaluate the given model
-    env.evaluate(num_eps=10, agents=agents, envs=envs)
+    env.evaluate(num_eps=1000, agents=agents, envs=envs)
 else:
-    # Begin agent learning
+    # Begin agent learning from scratch
     for i, agent in enumerate(agents):
         model_path = Path(f'./{args.exp_path}/{i}/models/')
         model_path.mkdir(parents=True)
 
-        checkpoint_callback = CheckpointCallback(save_freq=1e3, save_path=model_path,
+        checkpoint_callback = CheckpointCallback(save_freq=1e4, save_path=model_path,
                                                  name_prefix='rl_model')
         logging_callback = AgentEnvLoggingCallback(env_wrapper=envs[i])
         p = Process(target=agent.learn, args=(1e7,), kwargs={'callback': [logging_callback, checkpoint_callback]})

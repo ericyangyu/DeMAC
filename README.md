@@ -14,7 +14,7 @@ Since the coordinator of the DeMAC framework acts as a middle man, the user is r
 
 First, create a shared environment that extends the [**MARLEnvInterface**](./demac/src/demac/marl_env_interface.py) interface, initializing any instance variables or functions in the interface. Then, create a main file similar to [main.py](./main.py) that defines the workflow for learning/evaluating multiple agents. 
 
-The [sample envs](./sample_envs) folder gives a couple examples (trivial, meteor, gridnav) for how to define the shared environment. [main.py](./main.py) gives a good example for how to set up the DeMAC workflow (e.g. initializing the coordinator, linking the coordinator to the agents, initializing each agent with a wrapper environment, etc.) and define the learn/evaluate workflow.
+The [sample envs](./sample_envs) folder gives a couple examples (trivial, meteor, gridnav) for how to define the shared environment. [main.py](./main.py) gives a good example for how to set up the DeMAC workflow (e.g. initializing the coordinator, linking the coordinator to the agents, initializing each agent with a wrapper environment, etc.) and define the learning/evaluating workflow.
 
 ## Installation
 To install, first install the following dependencies:
@@ -54,44 +54,18 @@ python test.py --env meteor --test <model file name>
 
 ## Sample Environments
 ### Trivial
-A minimum implementation of a shared environment using the DeMAC framework. This contrived example can be used as a basic reference for how to write the shared environment, and run quick tests. 
+A minimum implementation of a shared environment using the DeMAC framework. This contrived example can be used as a basic reference for how to get set up with the shared environment, and run quick tests. 
 
 ### Meteor
-This is a game where a group of agents must avoid falling meteors from the sky. The game exists on an NxN grid and agents live on the last row of the grid. Meteors fall from the first row in intervals, and the collective goal of the agents is to avoid the meteors for as long as possible. 
+![Alt Text](images/meteor.gif)
 
-Agents are able to move left and right, but are not able to move on top of each other. Hence, the challenge is for the agents to learn cooperative behavior (e.g. moving for another agent to dodge a meteor even if the current agent is out of harm's way) to maximize the collective return.
+This is a game where a group of agents must avoid falling meteors from the sky. Agents live on the last row of an NxN grid, and can observe meteors falling in intervals from the top row. The collective goal of the agents is to avoid the meteors for as long as possible.
+
+Agents are able to move left and right, but are not on top of each other. Hence, the challenge is for the agents to learn cooperative behavior (e.g. moving for another agent to dodge a meteor even if the current agent is out of harm's way) to maximize the collective return.
 
 ### GridNav
+![Alt Text](images/gridnav.gif)
+
 This task involves a group of agents that must navigate an NxN grid and reach some goal without colliding into each other or into obstacles. The collective goal of the agents is to reach the goal as quickly as possible; there is a big bonus for an agent that reaches the goal, and big penalty for colliding agents. 
 
 Agents are able to move up, down, left, and right, but will collide if they move on top of a spot that is occupied by another agent or obstacle.
-
-
-[comment]: <> (## Todo List)
-
-[comment]: <> (* Tune meteor environment)
-
-[comment]: <> (* Tune gridworld environment)
-
-[comment]: <> (* Investigate PPO issue with linux)
-
-[comment]: <> (* Have more graceful way for error handling)
-
-[comment]: <> (* Check for compatability with other SARL libraries)
-
-[comment]: <> (* Allow for CUDA compatibility with multiprocessing and stable baselines 3 algorithms)
-
-[comment]: <> (* Implement a more robust way to pool agent requests and send batch to environment. currently only supports steps and resets, where a single reset in a batch of requests will end the current episode.)
-
-[comment]: <> (* Check for cross OS compatability; only tested on Mac)
-
-[comment]: <> (* Check for thread safety)
-
-[comment]: <> (* Make README more comprehensive e.g. adding GIFs, giving more detailed instructions for how to write shared environment and main function, etc.)
-
-[comment]: <> (* add issues to github repo)
-
-[comment]: <> (* Give guides on what each sample env does)
-
-
-  
