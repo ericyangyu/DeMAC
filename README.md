@@ -51,7 +51,7 @@ python main.py --env meteor
 
 To test:
 ```
-python test.py --env meteor --test <model file name>
+python main.py --env meteor --test <model file name>
 ```
 
 ## Sample Environments
