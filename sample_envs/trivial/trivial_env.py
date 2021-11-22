@@ -35,7 +35,7 @@ class TrivialEnv(MARLEnvInterface):
         done = random.random() < 0.005
         return {name: (0.5, 1, done, {}) for name in self.names}
 
-    def render(self):
+    def render(self, mode='human'):
         pass
 
     def close(self):

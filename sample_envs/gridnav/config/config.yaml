@@ -2,17 +2,17 @@
 num_agents: 5
 
 # For testing only; shows how large each pixel is on pygame
-pixel_size: 30
+pixel_size: 15
 
 # Width and height of the grid
-width: 20
-height: 20
+width: 30
+height: 30
 
 # Pixel radius of agent receptive field
 sensor_range: 2
 
 # Max number of timesteps to run in the environment
-max_timesteps: 100
+max_timesteps: 50
 
 # Probability that each node in the grid is a puddle
 puddle_prob: 0.0

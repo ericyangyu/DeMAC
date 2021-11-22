@@ -1,3 +1,5 @@
+import time
+
 import gym
 import numpy as np
 import yaml
@@ -126,7 +128,7 @@ class MeteorGame:
 
     def print_board(self):
         for row in self.grid:
-            print(''.join(row))
+            print('   ' + ''.join(row))
         print()
 
 
@@ -215,7 +217,7 @@ class MeteorEnv(MARLEnvInterface):
                 continue
             agent_ohe[agent_i][agent_x] = 1
         agent_ohe = np.array(agent_ohe).flatten().tolist()
-        # Form meteor distances from bottom 
+        # Form meteor distances from bottom
         return tuple(agent_ohe + meteor_dists)
 
     def get_rews(self, done):
@@ -225,7 +227,7 @@ class MeteorEnv(MARLEnvInterface):
             rew -= self.max_timesteps / 10
         return rew
 
-    def render(self):
+    def render(self, mode='human'):
         if self.render:
             self.env.print_board()
 
@@ -241,6 +243,8 @@ class MeteorEnv(MARLEnvInterface):
             obs = self.reset()
             done = False
             while not done:
+                self.env.print_board()
+                time.sleep(0.25)
                 a = {}
                 for agent, env_wrapper in zip(agents, envs):
                     act, _ = agent.predict(obs[env_wrapper.name])
