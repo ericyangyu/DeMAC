@@ -6,6 +6,8 @@ This open source project is currently in its infancy, and certainly has many iss
 
 ## How it works
 
+![](images/demac_workflow.png?raw=true)
+
  We start with a [**coordinator**](./demac/src/demac/demac_coordinator.py) thread that hosts a message passing queue server for agents to send requests to when they want to interact with the shared environment. Once the coordinator receives a request from every agent, it pools and simultaneously sends their requests to the shared environment. Once the environment returns a pooled response mapped to each agent, the coordinator will extract out each response and return it to the corresponding agent. 
 
 Since the coordinator of the DeMAC framework acts as a middle man, the user is responsible for defining the learning algorithms/agents on the client-side, and shared environment on the server-side. It is important that the shared environment extends the [**MARLEnvInterface**](./demac/src/demac/marl_env_interface.py) interface, and individual agents only have access to a wrapper environment instance defined by [**AgentEnvWrapper**](./demac/src/demac/demac_agent_env_wrapper.py). Both the interface and wrapper environment classes use [gym](https://gym.openai.com/) because it is a great toolkit to build well-defined environments. A more detailed guide to coding with the DeMAC framework can be seen in the following section.
