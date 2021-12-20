@@ -67,14 +67,17 @@ class Coordinator(gym.Env):
 
         # Initialize experiment directories, with reprompts for user confirmation
         if not self.test:
-            if os.path.exists(self.exp_path):
-                if input(f'{self.exp_path} already exists! If you continue with training, you will '
-                                        'override this directory. Are you sure? (y/n) ').lower() == 'y':
-                    print(f'Initializing {self.exp_path}...')
-                    init_dir(self.exp_path)
-                    init_dir(self.coord_path)
-                else:
-                    print(f'Not overriding {self.exp_path}.')
+            if not os.path.exists(self.exp_path):
+                print(f'Initializing {self.exp_path}...')
+                init_dir(self.exp_path)
+                init_dir(self.coord_path)
+            elif input(f'{self.exp_path} already exists! If you continue with training, you will override this '
+                       f'directory. Are you sure? (y/n) ').lower() == 'y':
+                print(f'Initializing {self.exp_path}...')
+                init_dir(self.exp_path)
+                init_dir(self.coord_path)
+            else:
+                print(f'Not overriding {self.exp_path}.')
 
         # Set up a logger for the coordinator
         self.logger = create_std_logger('Coordinator', self.coord_path + 'coordinator.log', logging.DEBUG)
