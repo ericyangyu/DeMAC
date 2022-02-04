@@ -3,10 +3,10 @@ from multiprocessing import Process
 from pathlib import Path
 
 import yaml
+from stable_baselines3.common.logger import configure
 
 from demac.src.demac.demac_agent_env_wrapper import AgentEnvWrapper
 from demac.src.demac.demac_coordinator import Coordinator
-from sample_envs.callbacks.agent_env_logging_callbacks import AgentEnvLoggingCallback
 from sample_envs.gridnav.grid import Grid
 from sample_envs.gridnav.gridnav import GridNav
 from sample_envs.meteor.meteor_env import MeteorEnv
@@ -43,8 +43,10 @@ for i in range(configs['num_agents']):
         # Load an existing agent model
         agents.append(A2C.load(f'./{args.exp_path}/{str(i)}/models/{args.model_name}', envs[i], device='cpu'))
     else:
-        # Initialize a new agent model
-        agents.append(A2C(MlpPolicy, envs[i], verbose=1, device='cpu'))
+        # Initialize a new agent model, and set the logger path
+        model = A2C(MlpPolicy, envs[i], verbose=1, device='cpu')
+        model.set_logger(configure(folder=envs[i].agent_path))
+        agents.append(model)
 
 # Start up the coordinator server to start listening for agent requests
 coordinator.start()
@@ -60,6 +62,5 @@ else:
 
         checkpoint_callback = CheckpointCallback(save_freq=1e4, save_path=model_path,
                                                  name_prefix='rl_model')
-        logging_callback = AgentEnvLoggingCallback(env_wrapper=envs[i])
-        p = Process(target=agent.learn, args=(1e7,), kwargs={'callback': [logging_callback, checkpoint_callback]})
+        p = Process(target=agent.learn, args=(1e7,), kwargs={'callback': [checkpoint_callback]})
         p.start()
